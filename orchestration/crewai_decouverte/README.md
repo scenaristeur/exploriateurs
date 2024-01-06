@@ -62,6 +62,26 @@ Une fois les résultats récupérés, le processus de rédaction de l'article co
 # si on veut monter une équipe d'experts français ? 
 Rien de plus simple, en utilisant https://translate.google.fr/?hl=fr  on peut traduire les différents prompts, et instructions données aux agents -> [01_chercheur_et_redacteur_demo.py](01_chercheur_et_redacteur_demo.py)
 
+cette démarche ne semble pas suffire
+
+
+- et en modifiant la task2 (en ajoutant "en français")
+
+```
+task2 = Task(
+  description="""En utilisant les informations du rapport du chercheur, développez un article de blog engageant 
+  qui met en évidence les avancées les plus significatives de l’IA.
+  Votre message doit être informatif mais accessible, s'adressant à un public féru de technologie.
+  Visez un récit qui capture l’essence de ces avancées et leurs
+  implications pour l’avenir. Votre réponse finale DOIT être un billet de blog complet en français d'au moins 3 paragraphes.""",
+  agent=writer
+)
+```
+
+
+
+Votre réponse finale DOIT être un billet de blog complet en français d'au moins 3 paragraphes.
+
 
 
 

@@ -58,7 +58,7 @@ task2 = Task(
   qui met en évidence les avancées les plus significatives de l’IA.
   Votre message doit être informatif mais accessible, s'adressant à un public féru de technologie.
   Visez un récit qui capture l’essence de ces avancées et leurs
-  implications pour l’avenir. Votre réponse finale DOIT être un billet de blog complet d'au moins 3 paragraphes.""",
+  implications pour l’avenir. Votre réponse finale DOIT être un billet de blog complet en français d'au moins 3 paragraphes.""",
   agent=writer
 )
 
