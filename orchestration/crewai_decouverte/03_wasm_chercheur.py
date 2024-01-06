@@ -1,12 +1,22 @@
+# wasmedge --dir .:. --nn-preload default:GGML:AUTO:llama-2-7b-chat.Q5_K_M.gguf llama-api-server.wasm -p llama-2-chat -s 0.0.0.0:8081
+
+
+
 import os
 from crewai import Agent, Task, Crew, Process
 
 # You can choose to use a local model through Ollama for example.
 # In this case we will use OpenHermes 2.5 as an example.
 #
-from langchain.llms import Ollama
-ollama_llm = Ollama(model="openhermes")
+# from langchain.llms import Ollama
+# ollama_llm = Ollama(model="openhermes")
 
+from langchain.chat_models import ChatOpenAI as OpenAI
+
+# Create an instance of the OpenAIWrapper
+local_openai_client = OpenAI(
+    base_url="http://localhost:8081/v1", api_key="not-needed", temperature=0.4
+)
 # If you are using an ollama like above you don't need to set OPENAI_API_KEY.
 #os.environ["OPENAI_API_KEY"] = "Your Key"
 
@@ -29,8 +39,9 @@ researcher = Agent(
   verbose=True,
   allow_delegation=False,
   tools=[search_tool],
+  llm=local_openai_client
   # (optional) 
-  llm=ollama_llm, #If you wanna use a local modal through Ollama, default is GPT4 with temperature=0.7
+  #llm=ollama_llm, #If you wanna use a local modal through Ollama, default is GPT4 with temperature=0.7
 
 )
 writer = Agent(
@@ -41,7 +52,8 @@ writer = Agent(
   Dans l’industrie technologique, vous transformez des concepts complexes en récits convaincants.""",
   verbose=True,
   # (optional) 
-  llm=ollama_llm, #If you wanna use a local modal through Ollama, default is GPT4 with temperature=0.7
+  #llm=ollama_llm, #If you wanna use a local modal through Ollama, default is GPT4 with temperature=0.7
+  llm=local_openai_client,
   allow_delegation=True
 )
 

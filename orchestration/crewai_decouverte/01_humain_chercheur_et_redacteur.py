@@ -1,5 +1,6 @@
 import os
 from crewai import Agent, Task, Crew, Process
+from langchain.agents import load_tools
 
 # You can choose to use a local model through Ollama for example.
 # In this case we will use OpenHermes 2.5 as an example.
@@ -15,6 +16,9 @@ ollama_llm = Ollama(model="openhermes")
 #
 # !pip install -U duckduckgo-search
 
+# Loading Human Tools
+human_tools = load_tools(["human"])
+
 from langchain.tools import DuckDuckGoSearchRun
 search_tool = DuckDuckGoSearchRun()
 
@@ -28,7 +32,8 @@ researcher = Agent(
   des informations exploitables.""",
   verbose=True,
   allow_delegation=False,
-  tools=[search_tool],
+  #tools=[search_tool],
+  tools=[search_tool]+human_tools,
   # (optional) 
   llm=ollama_llm, #If you wanna use a local modal through Ollama, default is GPT4 with temperature=0.7
 
@@ -46,10 +51,13 @@ writer = Agent(
 )
 
 # Create tasks for your agents
+# Being explicit on the task to ask for human feedback.
 task1 = Task(
   description="""Mener une analyse complète des dernières avancées en matière d’IA en 2024.
   Identifiez les tendances clés, les technologies révolutionnaires et les impacts potentiels sur l’industrie.
-  Compilez vos résultats dans un rapport détaillé. Votre réponse finale DOIT être un rapport d'analyse complet""",
+  Compilez vos résultats dans un rapport détaillé.
+  Assurez-vous de vérifier auprès de l'humain si le brouillon est bon avant de renvoyer votre réponse finale.
+  Votre réponse finale DOIT être un rapport d'analyse complet""",
   agent=researcher
 )
 
